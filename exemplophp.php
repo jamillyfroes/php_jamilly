@@ -6,11 +6,9 @@
     <title>Primeiro Programa PHP</title>
 </head>
 <body>
-    <?php
-        echo "<h1>Hello World, PHP-8!</h1>";
-        ?>
         <?php
-             phpinfo();
-             ?>
+            echo "<h1>Hello World, PHP-8!</h1>";
+            phpinfo();
+        ?>
 </body>
 </html>
