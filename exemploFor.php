@@ -6,17 +6,13 @@
     <title>Document</title>
 </head>
 <body>
-<?php
-    #$nome = "Xenia";
-    #$nome = null;
-    // Isset verifica se a variável não é nula - usar na tela de login
-    if (isset($nome)) {
-        print "Esta linha não vai ser alcançada.";
-    }
-?>
-
-<address>
+    <?php
+        for($i= 0; $i < 10; $i++){
+            print "O quadrado de i é: ".$i * $i."<br>";
+        }
+    ?>
+        <address>
             <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
-</address>
+        </address>
 </body>
 </html>
