@@ -22,6 +22,7 @@
         echo "Você pode ter quebras de linhas em uma string.<br>";
         echo 'Uma string pode usar "aspas-duplas". Isso é muito legal!<br>';
         echo 'Ainda pode-se usasr aspas simples dessa forma It\'s cool!<br>';
+        echo "Jamilly Fróes";
     ?>
 </body>
 </html>

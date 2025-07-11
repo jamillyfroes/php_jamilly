@@ -24,6 +24,7 @@
         $idade = 16;
         print "Hoje é seu $idade!<br>";
         print "Hoje é seu ($idade)° aniversário!<br>";
+        echo "Jamilly Fróes";
     ?>
 </body>
 </html>

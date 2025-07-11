@@ -21,7 +21,7 @@
         echo "A posição do primeiro 'e' é: $index <br>";
         echo "A substring do nome é: $first <br>";
         echo "O nome em maiúsculas é: $name <br>";
-
+        echo "Jamilly Fróes";
     ?>
 </body>
 </html>
