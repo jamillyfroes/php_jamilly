@@ -26,11 +26,11 @@
         <fieldset>
         <legend>Prioridade</legend>
         <label>
-            <input type="radio" name="prioridade" value="baixa" checked />
+            <input type="radio" name="prioridade" value="1" checked />
             Baixa 
-            <input type="radio" name="prioridade" value="media" checked />
+            <input type="radio" name="prioridade" value="2"  />
             Média 
-            <input type="radio" name="prioridade" value="alta" checked />
+            <input type="radio" name="prioridade" value="3" />
             Alta
         </label>
     </fieldset>
@@ -41,13 +41,13 @@
     <input type="submit" value="Cadastrar"/>
 </fieldset>
   </form>
-    <table>
+    <table align="center" border="1" cellpadding="20" cellspacing="0">
     <tr>
-        <th>Tarefas</th>
-        <th>Descrição</th>
-        <th>Prazo</th>
-        <th>Prioridade</th>
-        <th>Concluída</th>
+        <th align="center" bgcolor>Tarefas</th>
+        <th align="center">Descrição</th>
+        <th align="center">Prazo</th>
+        <th align="center">Prioridade</th>
+        <th align="center">Concluída</th>
     </tr>
 <?php 
 if (!isset($lista_tarefas) || !is_array($lista_tarefas)) {
@@ -56,11 +56,11 @@ if (!isset($lista_tarefas) || !is_array($lista_tarefas)) {
 ?>
 <?php foreach ($lista_tarefas as $tarefa): ?>
 <tr>
-   <td><?php echo $tarefa['nome'];  ?> </td>
-   <td><?php echo $tarefa['descricao'];  ?> </td>
-   <td><?php echo $tarefa['prazo'];  ?> </td>
-   <td><?php echo $tarefa['prioridade'];  ?> </td>
-   <td><?php echo $tarefa['concluida'];  ?> </td>
+   <td align="center"><?php echo $tarefa['nome'];  ?> </td>
+   <td align="center"><?php echo $tarefa['descricao'];  ?> </td>
+   <td align="center"><?php echo $tarefa['prazo'];  ?> </td>
+   <td align="center"><?php echo $tarefa['prioridade'];  ?> </td>
+   <td align="center"><?php echo $tarefa['concluida'];  ?> </td>
 </tr>
 <?php endforeach; ?>
         
