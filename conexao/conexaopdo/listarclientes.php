@@ -21,6 +21,7 @@
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
+                <th>Endereço</th>
                 <th>Email</th>
                 <th>Telefone</th>
             </tr> 
