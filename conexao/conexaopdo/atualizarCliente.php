@@ -3,78 +3,122 @@ require_once 'conexao.php';
 
 $conexao = conectarBanco();
 
-//Obtendo o ID via GET
+// Obtendo o ID via GET
 $idCliente = $_GET['id'] ?? null;
 $cliente = null;
 $msgErro = "";
 
-//Função local para buscar cliente po ID
+// Função local para buscar cliente por ID
 function buscarClientePorId($idCliente, $conexao) {
-    $stmt = $conexao->prepare("SELECT id_cliente, nome, endereco, telefone, email FROM cliente WHERE id_cliente = :id");
+    $stmt = $conexao->prepare("SELECT id, nome, endereco, telefone, email FROM cliente WHERE id = :id");
     $stmt->bindParam(":id", $idCliente, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetch();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-//Se um ID foi enviado, busca o cliente no banco
+// Se um ID foi enviado, busca o cliente no banco
 if ($idCliente && is_numeric($idCliente)) {
     $cliente = buscarClientePorId($idCliente, $conexao);
 
     if (!$cliente) {
         $msgErro = "Erro: Cliente não encontrado";
-    } else {
-        $msgErro = "Digite o Id do cliente para buscar os dados.";
     }
+} else {
+    $msgErro = "Digite o Id do cliente para buscar os dados.";
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Atualizar Cliente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script>
-        function habilitarEdicao(campo){
+        function habilitarEdicao(campo) {
             document.getElementById(campo).removeAttribute("readonly");
         }
     </script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">Gestão de Clientes</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSistema">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-<h2>Atualizar Cliente</h2>
+    <div class="collapse navbar-collapse" id="navbarSistema">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.php">Home</a>
+        </li>
 
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            Clientes
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="listarclientes.php">Lista de Clientes</a></li>
+            <li><a class="dropdown-item" href="pesquisarCliente.php">Pesquisar Cliente</a></li>
+            <!--<li><a class="dropdown-item" href="atualizarCliente.php">Atualizar Cliente</a></li>-->
+            <li><a class="dropdown-item" href="deletarCliente.php">Deletar Cliente</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
- <!-- Se houver erro, exibe a mensagem e o campo da busca -->
- <? php  if($msgErro) : ?>
-<form action="atualizarCliente.php" method="GET">
-    <label for="id">Id do Cliente:</label>
-    <input type="number" id="id" name="id" required>
-    <button type="submit">Buscar</button>
-</form>
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Atualizar Cliente</h2>
 
+    <?php if ($msgErro) : ?>
+        <div class="alert alert-danger text-center" role="alert">
+            <?= htmlspecialchars($msgErro) ?>
+        </div>
+        <form action="atualizarCliente.php" method="GET" class="w-50 mx-auto">
+            <div class="mb-3">
+                <label for="id" class="form-label">Id do Cliente:</label>
+                <input type="number" id="id" name="id" class="form-control" required />
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-dark">Buscar</button>
+            </div>
+        </form>
 
-<? php else: ?>
-    <!-- Se um cliente foi encontrado, exibe o formulário preenchido -->
-    <form action="processarAtualizacao.php" method="POST">
-        <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente["id_cliente"]) ?>">
+    <?php elseif ($cliente) : ?>
+        <form action="processarAtualizacao.php" method="POST" class="w-50 mx-auto">
+            <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente['id']) ?>" />
 
-        <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($cliente['nome']) ?>" readonly onclick="habilitarEdicao('nome')">
+            <div class="mb-3">
+                <label for="nome" class="form-label">Nome:</label>
+                <input type="text" id="nome" name="nome" class="form-control" value="<?= htmlspecialchars($cliente['nome']) ?>" readonly onclick="habilitarEdicao('nome')" />
+            </div>
 
-        <label for="endereco">Endereço:</label>
-        <input type="text" id="endereco" name="endereco" value="<?= htmlspecialchars($cliente['endereco']) ?>" readonly onclick="habilitarEdicao('endereco')">
+            <div class="mb-3">
+                <label for="endereco" class="form-label">Endereço:</label>
+                <input type="text" id="endereco" name="endereco" class="form-control" value="<?= htmlspecialchars($cliente['endereco']) ?>" readonly onclick="habilitarEdicao('endereco')" />
+            </div>
 
-        <label for="telefone">Telefone:</label>
-        <input type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($cliente['telefone']) ?>" readonly onclick="habilitarEdicao('telefone')">
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone:</label>
+                <input type="text" id="telefone" name="telefone" class="form-control" value="<?= htmlspecialchars($cliente['telefone']) ?>" readonly onclick="habilitarEdicao('telefone')" />
+            </div>
 
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email" value="<?= htmlspecialchars($cliente["email"]) ?>" readonly onclick="habilitarEdicao('email')">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" value="<?= htmlspecialchars($cliente['email']) ?>" readonly onclick="habilitarEdicao('email')" />
+            </div>
 
-        <button type="submit">Atualizar Cliente</button>
-    </form>
-    <? php endif; ?>
+            <div class="text-center">
+                <button type="submit" class="btn btn-dark">Atualizar Cliente</button>
+            </div>
+        </form>
+    <?php endif; ?>
+</div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
