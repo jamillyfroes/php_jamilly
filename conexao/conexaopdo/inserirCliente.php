@@ -56,6 +56,11 @@
         <button class="btn btn-dark" type="submit">Cadastrar Cliente</button>
         </div>
     </form>
+
+    <br>
+    <address>
+        <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

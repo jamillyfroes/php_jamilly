@@ -42,6 +42,11 @@
   <h1 class="text-center">Bem-vindo ao Sistema de Gestão de Clientes</h1>
   <p class="text-center">Utilize o menu acima para navegar pelas funcionalidades do sistema.</p>
 
+  <br>
+   
+        <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+   
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

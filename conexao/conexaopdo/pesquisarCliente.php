@@ -64,10 +64,10 @@ $busca = $_GET['busca'] ?? '';
     endif;
 
     if (is_numeric($busca)) {
-        $stmt = $conexao->prepare("SELECT id, nome, endereco, telefone, email FROM cliente WHERE id = :id");
+        $stmt = $conexao->prepare("SELECT id_cliente, nome, endereco, telefone, email FROM cliente WHERE id_cliente = :id");
         $stmt->bindParam(":id", $busca, PDO::PARAM_INT);
     } else {
-        $stmt = $conexao->prepare("SELECT id, nome, endereco, telefone, email FROM cliente WHERE nome LIKE :nome");
+        $stmt = $conexao->prepare("SELECT id_cliente, nome, endereco, telefone, email FROM cliente WHERE nome LIKE :nome");
         $buscaNome = "%$busca%";
         $stmt->bindParam(":nome", $buscaNome, PDO::PARAM_STR);
     }
@@ -92,7 +92,7 @@ $busca = $_GET['busca'] ?? '';
 
             <?php foreach ($clientes as $cliente): ?>
                 <tr>
-                    <td><?= htmlspecialchars($cliente['id']) ?></td>
+                    <td><?= htmlspecialchars($cliente['id_cliente']) ?></td>
                     <td><?= htmlspecialchars($cliente['nome']) ?></td>
                     <td><?= htmlspecialchars($cliente['endereco']) ?></td>
                     <td><?= htmlspecialchars($cliente['email']) ?></td>
@@ -101,6 +101,10 @@ $busca = $_GET['busca'] ?? '';
             <?php endforeach; ?>
     </table>
 </div>
+<br>
+    <address>
+        <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

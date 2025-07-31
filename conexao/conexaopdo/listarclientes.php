@@ -59,7 +59,7 @@
             
     <?php foreach ($clientes as $cliente): ?>
             <tr>
-                <td><?= htmlspecialchars($cliente['id']) ?></td>
+                <td><?= htmlspecialchars($cliente['id_cliente']) ?></td>
                 <td><?= htmlspecialchars($cliente['nome']) ?></td>
                 <td><?= htmlspecialchars($cliente['endereco']) ?></td>
                 <td><?= htmlspecialchars($cliente['email']) ?></td>
@@ -67,6 +67,10 @@
             </tr>
              <?php endforeach; ?>
         </table>
+        <br>
+    <address>
+        <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

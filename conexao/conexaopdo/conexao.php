@@ -15,4 +15,5 @@
             die("Erro ao conectar ao banco de dados.");
         }
      }
+     // Jamilly Fróes
 ?>

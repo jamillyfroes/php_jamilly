@@ -10,7 +10,7 @@ $msgErro = "";
 
 // Função local para buscar cliente por ID
 function buscarClientePorId($idCliente, $conexao) {
-    $stmt = $conexao->prepare("SELECT id, nome, endereco, telefone, email FROM cliente WHERE id = :id");
+    $stmt = $conexao->prepare("SELECT id_cliente, nome, endereco, telefone, email FROM cliente WHERE id_cliente = :id");
     $stmt->bindParam(":id", $idCliente, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -90,7 +90,7 @@ if ($idCliente && is_numeric($idCliente)) {
 
     <?php elseif ($cliente) : ?>
         <form action="processarAtualizacao.php" method="POST" class="w-50 mx-auto">
-            <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente['id']) ?>" />
+            <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente['id_cliente']) ?>" />
 
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome:</label>
@@ -118,6 +118,13 @@ if ($idCliente && is_numeric($idCliente)) {
         </form>
     <?php endif; ?>
 </div>
+<br>
+   
+<br>
+    <address>
+        <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>      
+    
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
