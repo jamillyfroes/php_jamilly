@@ -10,7 +10,7 @@ $tipo= $_FILES['imagem']['type'];
 $nome=$_FILES['imagem']['name'];
 
 //verifica se o arquivo foi enviado corretamente
-if(!empty($imagem)&& $tamanh0>0){
+if(!empty($imagem)&& $tamanho> 0){
     //le o conteudo do arquivo
     $fp= fopen($imagem,"rb");
     $conteudo= fread($fp,filesize($imagem));
