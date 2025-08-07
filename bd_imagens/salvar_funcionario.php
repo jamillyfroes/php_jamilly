@@ -1,83 +1,91 @@
 <?php
-//funcao para redimensionar a imagem 
-function redimensionarImagem($imagem, $largura,$altura){
-    //obtem as dimensoes originais da imagem
-    //getimagesize() retorna a largura e a altura de uma imagem
-    list($larguraOriginal,$alturaOriginal)= getimagigesize($imagem);
-    //cria uma nova imagem em branco com as novas dimensoes
-    //imagecreatetruecolor() cria uma nova imagem em alta qualidade
-    $novaImagem= imagecreatetruecolor($largura,$altura);
+// Função para redimensionar a imagem
+function redimensionarImagem($imagem, $largura, $altura) {
+    // Obtém as dimensões originais da imagem
+    list($larguraOriginal, $alturaOriginal) = getimagesize($imagem);
 
-    //carrega a imagem original(jpeg) a partir do arquivo
-    //imagecreatefromjpeg(): Cria uma imagem php a partir de um jpeg
-    $imagemOriginal= imagecreateformjpeg($imagem);
+    // Cria uma nova imagem em branco com as novas dimensões
+    $novaImagem = imagecreatetruecolor($largura, $altura);
 
-    //copia e redimensiona a imagem original para a nova
-    //imagecopyexample(): copia com redimenssionamento e suavização
-    imagecopyexamplet($novaImagem, $imagemOriginal, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
-    //inicia com um buffer para guardar a imagem como texto binário
-    //ob_start(): inicia o output buffering, guardando saida
+    // Carrega a imagem original jpeg
+    $imagemOriginal = imagecreatefromjpeg($imagem);
+
+    // Copia e redimensiona a imagem original para a nova
+    imagecopyresampled($novaImagem, $imagemOriginal, 0, 0, 0, 0, $largura, $altura, $larguraOriginal, $alturaOriginal);
+
+    // Inicia um buffer para guardar a imagem como texto binário
+    //ob_satart();
     ob_start();
 
-    //imagejpeg(): envia a imagem para o output
+
     imagejpeg($novaImagem);
+    $dados_imagem = ob_get_clean(); // Pega o conteúdo do buffer e limpa
 
-    //ob_get_clean: pega o conteudo do buffer e limpa
-    $dados_imagem= ob_get_clean();
-
-    //libera a memoria usada pelas imagens
-    //tempimagedestroy: limpa a memoria da imagem criada
+    // Libera a memória usada pelas imagens
     imagedestroy($novaImagem);
     imagedestroy($imagemOriginal);
 
-    return $dadosImagem;
-
+    return $dados_imagem;
 }
 
-//configurando o banco
-$host='localhost';
-$dbname='bd_imagens';
-$username='root';
-$password='';
+// Configuração do banco
+$host = 'localhost';
+$dbname = 'bd_imagens';
+$username = 'root';
+$password = '';
 
-try{
-    //conexao com o banco de dados usando pdo
-    $pdo= new PDO("mysql:host=$host,dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//define que erros vão lançar excessos
+try {
+    // Conexão com o banco de dados usando PDO
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    //verifica se tem um post e se tem um arquivo 'foto'
-    if($_SERVER['REQUEST_METHOD']=='POST' && isset ($_FILES['foto'])){
+    // Verifica se o método é POST e se há um arquivo 'foto'
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
 
-        if($_FILES['foto']['error']== 0){
-            $nome=$_POST['nome'];
-            $telefone=$_POST['telefone'];
-            $nome_foto=$_POST['nomeFoto']['name'];
-            $tipoFoto=$_POST['tipoFoto']['type'];
+        if ($_FILES['foto']['error'] == 0) {
+            $nome = $_POST['nome'] ?? '';
+            $telefone = $_POST['telefone'] ?? '';
+            $nome_foto = $_FILES['foto']['name'];
+            $tipoFoto = $_FILES['foto']['type'];
 
-            //redimensiona a imagem
-            $foto= redimensionarImagem($_FILES['foto']['tmp_name'],300,400);
+            // Redimensiona a imagem
+            $foto = redimensionarImagem($_FILES['foto']['tmp_name'], 300, 400);
 
-            //insere no banco de dados usando sql prepared
-            $sql="INSERT INTO funcionarios(nome,telefone,nome_foto,tipo_foto,foto) VALUES (:nome, :telefone, :nome_foto, :tipo_foto, :foto";
+            // Insere no banco de dados usando SQL preparado
+            $sql = "INSERT INTO funcionarios (nome, telefone, nome_foto, tipo_foto, foto) 
+                    VALUES (:nome, :telefone, :nome_foto, :tipo_foto, :foto)";
 
-            $stmt= $pdo->prepare($sql);//pr3epara a query para evitar o sql inject
-            $stmt->bind_param(':nome',$nome);//liga o sparamentos a variaveis
-            $stmt->bind_param(':telefone',$telefone);//liga o sparamentos a variaveis
-            $stmt->bind_param(':nome_foto',$nome_foto);//liga o sparamentos a variaveis
-            $stmt->bind_param(':tipo_foto',$tipoFoto);//liga o sparamentos a variaveis
-            $stmt->bind_param(':foto',$foto, PDO::PARAM_LOB);//liga o sparamentos a variaveis
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':nome', $nome);
+            $stmt->bindParam(':telefone', $telefone);
+            $stmt->bindParam(':nome_foto', $nome_foto);
+            $stmt->bindParam(':tipo_foto', $tipoFoto);
+            $stmt->bindParam(':foto', $foto, PDO::PARAM_LOB); // LOB para dados binários
 
-            if($stmt->execute()){
-                echo "Funcionário cadastrado com sucesso";
-            }else{
-                echo "Erro ao cadastrar funcionário";
-            }else{
-                echo "Erro ao fazer o upload da foto: ".$_FILES['foto']['error'];
+            if ($stmt->execute()) {
+                echo "Funcionário cadastrado com sucesso!";
+            } else {
+                echo "Erro ao cadastrar funcionário.";
             }
-        }catch(PDOException $e){
-            echo "Erro".$e->getMEssage();
+        } else {
+            echo "Erro ao fazer o upload da foto: " . $_FILES['foto']['error'];
         }
     }
+} catch (PDOException $e) {
+    echo "Erro: " . $e->getMessage();
 }
-
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Imagens</title>
+</head>
+<body>
+    <h1>Lista de imagens</h1>    
+    <a href="consulta_funcionario.php">Listar funcionários</a>
+
+</body>
+</html>
