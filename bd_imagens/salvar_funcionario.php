@@ -86,6 +86,8 @@ try {
 <body>
     <h1>Lista de imagens</h1>    
     <a href="consulta_funcionario.php">Listar funcionários</a>
-
+    <address>
+            <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>
 </body>
 </html>

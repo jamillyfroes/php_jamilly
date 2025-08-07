@@ -49,7 +49,7 @@ try {
         <?php foreach($funcionarios as $funcionario): ?>
         <li>
             <!-- A linha abaixo exibe o link para visualizar os detalhes do funcionario com basde no id-->
-            <a href="visualizar_funcionario.php?id=<?$funcionario['id']?>">
+            <a href="visualizar_funcionario.php?id=<?= $funcionario['id'] ?>">
                 <!-- A linha abaixo exibe o nome do funcionario-->
                 <?=htmlspecialchars($funcionario['nome'])?>
             </a>
@@ -61,5 +61,8 @@ try {
         </li>
         <?php endforeach; ?>
     </ul>
+    <address>
+            <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+     </address>
 </body>
 </html>

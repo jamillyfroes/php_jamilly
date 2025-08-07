@@ -27,5 +27,8 @@
             <button type="submit">Cadastrar</button>
         </form>
     </div>
+    <address>
+            <center>Jamilly Fróes- Estudante- Técnico de Desenvolvimento de Sistemas</center>
+    </address>
 </body>
 </html>
